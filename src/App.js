@@ -1,12 +1,12 @@
 import React from "react";
 import IconsGrid from "./IconsGrid";
-import ResponsiveDrawer from "./NavBar";
+import PersistentDrawerLeft from "./NavBar";
 
 function App() {
   return (
     <React.Fragment>
       <div>Hello World</div>
-      <ResponsiveDrawer></ResponsiveDrawer>
+      <PersistentDrawerLeft></PersistentDrawerLeft>
 
       <IconsGrid></IconsGrid>
     </React.Fragment>
