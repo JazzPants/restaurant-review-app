@@ -1,5 +1,5 @@
 import React from "react";
-import IconsGrid from "./IconsGrid";
+import StyleTest from "./StyleTest";
 import PersistentDrawerLeft from "./NavBar";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
       <div>Hello World</div>
       <PersistentDrawerLeft></PersistentDrawerLeft>
 
-      <IconsGrid></IconsGrid>
+      <StyleTest></StyleTest>
     </React.Fragment>
   );
 }
