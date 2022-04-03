@@ -3,8 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { Divider } from "@mui/material";
+import { Rating } from "@mui/material";
 import { CardActionArea } from "@mui/material";
 
+//pass props and display Card based on those props
 export default function RestaurantCard() {
   return (
     <Card sx={{ maxWidth: 500 }}>
@@ -25,6 +28,9 @@ export default function RestaurantCard() {
             to more light, but still savoury shio ramen, there is a choice for
             everyone!
           </Typography>
+          <Divider />
+          <Typography>Rating</Typography>
+          <Rating name="read-only" value="2" readOnly />
         </CardContent>
       </CardActionArea>
     </Card>
