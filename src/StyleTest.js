@@ -40,7 +40,6 @@ const Container = styled.div`
 export default function StyleTest() {
   return (
     <>
-      <Link to="/">Home</Link>
       <Button>Normal Button</Button>
       <Button primary>Primary Button</Button>
       <Grid container sx={{ color: "text.primary" }}>
@@ -88,6 +87,7 @@ export default function StyleTest() {
           <ThreeSixtyIcon />
         </Grid>
       </Grid>
+      <Link to="/">Home</Link>
     </>
   );
 }
