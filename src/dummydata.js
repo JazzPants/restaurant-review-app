@@ -78,3 +78,7 @@ everyone!`,
 export function getRestaurants() {
   return restaurants;
 }
+
+export function getRestaurant(name) {
+  return restaurants.find((restaurant) => restaurant.name === name);
+}
