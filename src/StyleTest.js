@@ -15,6 +15,7 @@ import ThreeDRotationIcon from "@mui/icons-material/ThreeDRotation";
 import FourKIcon from "@mui/icons-material/FourK";
 import ThreeSixtyIcon from "@mui/icons-material/ThreeSixty";
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 
 const Button = styled.button`
   background: transparent;
@@ -39,6 +40,7 @@ const Container = styled.div`
 export default function StyleTest() {
   return (
     <>
+      <Link to="/">Home</Link>
       <Button>Normal Button</Button>
       <Button primary>Primary Button</Button>
       <Grid container sx={{ color: "text.primary" }}>

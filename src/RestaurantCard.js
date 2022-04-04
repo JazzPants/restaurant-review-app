@@ -30,7 +30,7 @@ export default function RestaurantCard() {
           </Typography>
           <Divider />
           <Typography>Rating</Typography>
-          <Rating name="read-only" value="2" readOnly />
+          <Rating name="read-only" value={4} readOnly />
         </CardContent>
       </CardActionArea>
     </Card>
