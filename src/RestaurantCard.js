@@ -6,33 +6,36 @@ import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
 import { Rating } from "@mui/material";
 import { CardActionArea } from "@mui/material";
+import { Restaurant } from "@mui/icons-material";
 
 //pass props and display Card based on those props
-export default function RestaurantCard() {
+export default function RestaurantCard(props) {
   return (
     <Card sx={{ maxWidth: 500 }}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image=""
-          alt="kosuke restuarant"
-        />
+        <CardMedia component="img" height="140" image="" alt={props.name} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Kosuke
+            {props.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Kosuke is a dedicated ramen joint with an extensive list of ramens
-            you can choose to devour. From rich, thick, tonkotsu black garlic,
-            to more light, but still savoury shio ramen, there is a choice for
-            everyone!
+            {props.description}
           </Typography>
           <Divider />
           <Typography>Rating</Typography>
-          <Rating name="read-only" value={4} readOnly />
+          <Rating name="read-only" value={props.rating} readOnly />
         </CardContent>
       </CardActionArea>
     </Card>
   );
 }
+
+// {
+//   name: "Ramen Zundo",
+//   description:
+//     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna ex, porttitor vel libero vitae, elementum condimentum elit. Nam quis nisi fringilla, posuere purus nec, ultrices ante. Phasellus consequat sapien a erat tempor, scelerisque tempor odio ultrices. Etiam at ipsum dapibus, blandit ipsum sit amet, euismod elit. Curabitur posuere rhoncus.",
+//   rating: 4,
+//   category: "Ramen",
+//   location: "Sydney",
+//   pricing: "low",
+// },

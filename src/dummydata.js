@@ -74,3 +74,7 @@ everyone!`,
     pricing: "high",
   },
 ];
+
+export function getRestaurants() {
+  return restaurants;
+}
