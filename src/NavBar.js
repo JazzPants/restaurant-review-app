@@ -145,7 +145,6 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <RestaurantCardsList></RestaurantCardsList>
       </Main>
     </Box>
   );
