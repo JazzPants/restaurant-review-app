@@ -1,6 +1,7 @@
 import PersistentDrawerLeft from "./NavBar";
 import { Outlet, Link } from "react-router-dom";
 import RestaurantCardsList from "./RestaurantCardsList";
+import AddRestaurantModal from "./AddRestaurantModal";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <PersistentDrawerLeft></PersistentDrawerLeft>
       <Link to="/restaurants">Random Restaurants</Link>{" "}
       <Link to="/styletest">Style Test</Link> <Outlet />
+      <AddRestaurantModal></AddRestaurantModal>
     </>
   );
 }

@@ -10,6 +10,7 @@ export default function RestaurantCardsList() {
   let restaurants = getRestaurants();
   return (
     <>
+      <Link to="/">Home</Link>
       <div>Random Restaurants</div>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {restaurants.map((restaurant, index) => (
