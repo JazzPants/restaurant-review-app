@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { getRestaurant } from "./dummydata";
+import { getRestaurant } from "../dummydata";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { Rating } from "@mui/material";

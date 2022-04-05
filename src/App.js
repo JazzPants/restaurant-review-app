@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import StyleTest from "./StyleTest";
-import Home from "./Home";
-import RestaurantCardsList from "./RestaurantCardsList";
-import RestaurantCardFocus from "./RestaurantCardFocus";
+import StyleTest from "./components/StyleTest";
+import Home from "./components/Home";
+import RestaurantCardsList from "./components/RestaurantCardsList";
+import RestaurantCardFocus from "./components/RestaurantCardFocus";
 
 function App() {
   return (

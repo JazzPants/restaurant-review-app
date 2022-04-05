@@ -29,13 +29,3 @@ export default function RestaurantCard(props) {
     </Card>
   );
 }
-
-// {
-//   name: "Ramen Zundo",
-//   description:
-//     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna ex, porttitor vel libero vitae, elementum condimentum elit. Nam quis nisi fringilla, posuere purus nec, ultrices ante. Phasellus consequat sapien a erat tempor, scelerisque tempor odio ultrices. Etiam at ipsum dapibus, blandit ipsum sit amet, euismod elit. Curabitur posuere rhoncus.",
-//   rating: 4,
-//   category: "Ramen",
-//   location: "Sydney",
-//   pricing: "low",
-// },
