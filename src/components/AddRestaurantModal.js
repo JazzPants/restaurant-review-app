@@ -19,6 +19,11 @@ export default function AddRestaurantModal() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleClose();
+  };
   return (
     <div>
       <button type="button" onClick={handleOpen}>
@@ -26,12 +31,7 @@ export default function AddRestaurantModal() {
       </button>
       <Dialog open={open}>
         <Box>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleClose();
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <div>
               <Typography>Restaurant</Typography>
               <TextField
