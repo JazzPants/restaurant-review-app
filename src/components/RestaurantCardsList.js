@@ -3,36 +3,14 @@ import { Grid } from "@mui/material";
 import { getRestaurants } from "../dummydata";
 import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useRestaurants } from "../contexts/RestaurantsContext";
 
 //map over data fetched from Rails API and display the Restaurants as Cards in a Grid
 //pass fetched data as props into RestaurantCard(e.g. name, rating, description, reviews etc.)
 //render those in RestaurantCard and RestaurantCardFocus
 export default function RestaurantCardsList() {
-  // let restaurants = getRestaurants();
-  //useState
-  const [restaurants, setRestaurants] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [reviews, setReviews] = useState([]);
-
-  //useEffect
-  useEffect(() => {
-    fetch("http://localhost:3000/api/v1/restaurants")
-      .then((response) => response.json())
-      .then((data) => setRestaurants(data));
-  }, []);
-
-  //fetch ratings
-
-  // const getRestaurants = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3000/api/v1/restaurants");
-  //     const data = await response.json();
-  //     console.log(data);
-  //     return setRestaurants(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const { restaurants } = useRestaurants();
+  console.log(restaurants);
   return (
     <>
       <Link to="/">Home</Link>
