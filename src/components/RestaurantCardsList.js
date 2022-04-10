@@ -10,7 +10,7 @@ import { useRestaurants } from "../contexts/RestaurantsContext";
 //render those in RestaurantCard and RestaurantCardFocus
 export default function RestaurantCardsList() {
   const { restaurants } = useRestaurants();
-  console.log(restaurants);
+  // console.log(restaurants);
   return (
     <>
       <Link to="/">Home</Link>
@@ -30,7 +30,6 @@ export default function RestaurantCardsList() {
                 location={restaurant.location}
                 pricing={restaurant.pricing}
               ></RestaurantCard>
-              <div>Hello {restaurant.name}</div>
             </Link>
           </Grid>
         ))}

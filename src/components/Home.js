@@ -1,7 +1,7 @@
 import PersistentDrawerLeft from "./NavBar";
 import { Outlet, Link } from "react-router-dom";
 import RestaurantCardsList from "./RestaurantCardsList";
-import AddRestaurantModal from "./AddRestaurantModal";
+import AddRestaurantModal from "./actions/AddRestaurantModal";
 
 export default function Home() {
   return (

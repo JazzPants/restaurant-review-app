@@ -14,12 +14,15 @@ export function useRestaurants() {
 export const RestaurantsProvider = ({ children }) => {
   const [restaurants, setRestaurants] = useState([]);
 
+  //check for updates
+  //   const [isUpdated, setUpdated] = useState(false)
+
   useEffect(() => {
     fetch("http://localhost:3000/api/v1/restaurants")
       .then((response) => response.json())
       .then((data) => {
         setRestaurants(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => console.log(error));
   }, []);

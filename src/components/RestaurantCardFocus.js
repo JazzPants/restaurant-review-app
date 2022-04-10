@@ -40,7 +40,8 @@ function RestaurantCardFocus() {
   //get ratings
   //get reviews
   // let restaurant = getRestaurant(params.restaurantId);
-  //conditional rendering to wait for data to be retrieved
+  //conditional rendering to wait for data to be retrieved (band-aid fix?)
+  //modify context to wait for fetch (Loading...)
   return (
     <>
       <h1>Restaurant: {restaurant?.name}</h1>

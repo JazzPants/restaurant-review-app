@@ -10,6 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
+// import { useRestaurants } from "../contexts/RestaurantsContext";
 
 export default function AddRestaurantModal() {
   const nameRef = useRef();
@@ -27,13 +28,42 @@ export default function AddRestaurantModal() {
     setOpen(false);
   };
 
+  //make Restaurant object with useRefs
   const handleSubmit = (event) => {
     event.preventDefault();
+    handleAddRestaurant();
+    //TODO: submission succesful message
+    console.log("submitted?");
     handleClose();
   };
 
+  // useEffect(() => {
+  //   handleAddRestaurant();
+  // }, []);
+
   const handleAddRestaurant = () => {
     //fetch POST with object containing restaurant refs
+    fetch("http://localhost:3000/api/v1/restaurants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      //restaurant object here
+      body: JSON.stringify({
+        user_id: 1,
+        name: nameRef.current.value,
+        description: descriptionRef.current.value,
+        rating: 4,
+        category: categoryRef.current.value,
+        location: locationRef.current.value,
+        pricing: pricingRef.current.value,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -49,9 +79,11 @@ export default function AddRestaurantModal() {
                 <Typography>Restaurant</Typography>
                 {/* <input></input> */}
                 <TextField
+                  inputRef={nameRef}
                   label="restaurant name"
                   name="restaurant[name]"
                   helperText="helper text!!"
+                  required
                   // placeholder="What is the restaurant name?"
                 />
               </div>
@@ -60,28 +92,42 @@ export default function AddRestaurantModal() {
                 {/* <TextareaAutosize minRows={3} name="restaurant" /> */}
                 <Typography>Description</Typography>
                 <TextField
+                  inputRef={descriptionRef}
                   label="description"
                   InputProps={{ style: { fontSize: 40 } }}
                   InputLabelProps={{ style: { fontSize: 20 } }}
                   name="restaurant[description]"
                   multiline
                   rows={3}
+                  required
                 />
               </div>
               <div>
                 <Typography>Category</Typography>
-                <TextField label="food category" name="restaurant[category]" />
+                <TextField
+                  inputRef={categoryRef}
+                  label="food category"
+                  name="restaurant[category]"
+                  required
+                />
               </div>
               <div>
                 <Typography>Location</Typography>
-                <TextField label="location" name="restaurant[location]" />
+                <TextField
+                  inputRef={locationRef}
+                  label="location"
+                  name="restaurant[location]"
+                  required
+                />
               </div>
               <div>
                 <Typography>Pricing</Typography>
                 <TextField
+                  inputRef={pricingRef}
                   label="dish pricing"
                   name="restaurant[pricing]"
                   placeholder="low, average or high?"
+                  required
                 />
               </div>
               <div>
