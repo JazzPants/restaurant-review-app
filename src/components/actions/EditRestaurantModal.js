@@ -10,9 +10,14 @@ import {
   Stack,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
-// import { useRestaurants } from "../contexts/RestaurantsContext";
+import { useParams } from "react-router-dom";
+import { useRestaurants } from "../../contexts/RestaurantsContext";
 
-export default function AddRestaurantModal() {
+export default function EditRestaurantModal() {
+  //get values for current restaurant and prefill form
+  const { restaurants } = useRestaurants();
+  const [restaurant, setRestaurant] = useState();
+  const params = useParams();
   const nameRef = useRef();
   const descriptionRef = useRef();
   const categoryRef = useRef();
@@ -28,12 +33,20 @@ export default function AddRestaurantModal() {
     setOpen(false);
   };
 
-  //make Restaurant object with useRefs
+  useEffect(() => {
+    if (restaurants) {
+      const restaurantObj = restaurants.find(
+        (element) => element.name === params.restaurantId
+      );
+      setRestaurant(restaurantObj);
+    }
+  }, [restaurants]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleAddRestaurant();
+    // handleEditRestaurant();
     //TODO: submission succesful message
-    console.log("submitted?");
+    console.log("close modal");
     handleClose();
   };
 
@@ -41,8 +54,8 @@ export default function AddRestaurantModal() {
   //   handleAddRestaurant();
   // }, []);
 
-  const handleAddRestaurant = () => {
-    //fetch POST with object containing restaurant refs
+  const handleEditRestaurant = () => {
+    //fetch PATCH object of current restaurant ID
     fetch("http://localhost:3000/api/v1/restaurants", {
       method: "POST",
       headers: {
@@ -69,21 +82,20 @@ export default function AddRestaurantModal() {
   return (
     <div>
       <Button type="Button" onClick={handleOpen}>
-        Add Restaurant
+        Edit Restaurant
       </Button>
       <Dialog open={open}>
         <Box sx={{ p: 2 }}>
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              <h2>Add a Restaurant</h2>
+              <h2>Edit this Restaurant</h2>
               <div>
                 <Typography>Restaurant</Typography>
                 {/* <input></input> */}
                 <TextField
                   inputRef={nameRef}
-                  label="restaurant name"
                   name="restaurant[name]"
-                  helperText="helper text!!"
+                  value={restaurant?.name}
                   required
                   // placeholder="What is the restaurant name?"
                 />
@@ -94,10 +106,9 @@ export default function AddRestaurantModal() {
                 <Typography>Description</Typography>
                 <TextField
                   inputRef={descriptionRef}
-                  label="description"
-                  InputProps={{ style: { fontSize: 40 } }}
-                  InputLabelProps={{ style: { fontSize: 20 } }}
+                  InputProps={{ style: { fontSize: 14 } }}
                   name="restaurant[description]"
+                  value={restaurant?.description}
                   multiline
                   rows={3}
                   required
@@ -107,7 +118,7 @@ export default function AddRestaurantModal() {
                 <Typography>Category</Typography>
                 <TextField
                   inputRef={categoryRef}
-                  label="food category"
+                  value={restaurant?.category}
                   name="restaurant[category]"
                   required
                 />
@@ -116,8 +127,8 @@ export default function AddRestaurantModal() {
                 <Typography>Location</Typography>
                 <TextField
                   inputRef={locationRef}
-                  label="location"
                   name="restaurant[location]"
+                  value={restaurant?.location}
                   required
                 />
               </div>
@@ -125,9 +136,9 @@ export default function AddRestaurantModal() {
                 <Typography>Pricing</Typography>
                 <TextField
                   inputRef={pricingRef}
-                  label="dish pricing"
                   name="restaurant[pricing]"
-                  placeholder="low, average or high?"
+                  value={restaurant?.pricing}
+                  helperText="$,$$,$$$"
                   required
                 />
               </div>

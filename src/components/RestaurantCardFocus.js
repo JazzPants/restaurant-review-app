@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import { Rating } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
+import EditRestaurantModal from "./actions/EditRestaurantModal";
 
 //shows in-depth look at the restaurant
 //top 3 dishes, menu(pop open), top-voted description, more reviews
@@ -52,6 +53,7 @@ function RestaurantCardFocus() {
       <Rating name="read-only" value={restaurant?.rating} readOnly />
       <p>Location: {restaurant?.location}</p>
       <p>Pricing: {restaurant?.pricing}</p>
+      <EditRestaurantModal></EditRestaurantModal>
       <Link to="/">Home</Link>
     </>
   );
