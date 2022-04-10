@@ -27,10 +27,12 @@ export default function EditRestaurantModal() {
 
   const handleOpen = () => {
     setOpen(true);
+    console.log(`Restaurant id is: ${restaurant.id}`);
   };
 
   const handleClose = () => {
     setOpen(false);
+    console.log("close modal");
   };
 
   useEffect(() => {
@@ -44,9 +46,9 @@ export default function EditRestaurantModal() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // handleEditRestaurant();
+    handleEditRestaurant();
     //TODO: submission succesful message
-    console.log("close modal");
+    console.log("submitting restaurant...");
     handleClose();
   };
 
@@ -56,8 +58,8 @@ export default function EditRestaurantModal() {
 
   const handleEditRestaurant = () => {
     //fetch PATCH object of current restaurant ID
-    fetch("http://localhost:3000/api/v1/restaurants", {
-      method: "POST",
+    fetch(`http://localhost:3000/api/v1/restaurants/${restaurant.id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -66,7 +68,6 @@ export default function EditRestaurantModal() {
         user_id: 1,
         name: nameRef.current.value,
         description: descriptionRef.current.value,
-        rating: 4,
         category: categoryRef.current.value,
         location: locationRef.current.value,
         pricing: pricingRef.current.value,
@@ -95,7 +96,7 @@ export default function EditRestaurantModal() {
                 <TextField
                   inputRef={nameRef}
                   name="restaurant[name]"
-                  value={restaurant?.name}
+                  defaultValue={restaurant?.name}
                   required
                   // placeholder="What is the restaurant name?"
                 />
@@ -108,7 +109,7 @@ export default function EditRestaurantModal() {
                   inputRef={descriptionRef}
                   InputProps={{ style: { fontSize: 14 } }}
                   name="restaurant[description]"
-                  value={restaurant?.description}
+                  defaultValue={restaurant?.description}
                   multiline
                   rows={3}
                   required
@@ -118,7 +119,7 @@ export default function EditRestaurantModal() {
                 <Typography>Category</Typography>
                 <TextField
                   inputRef={categoryRef}
-                  value={restaurant?.category}
+                  defaultValue={restaurant?.category}
                   name="restaurant[category]"
                   required
                 />
@@ -128,7 +129,7 @@ export default function EditRestaurantModal() {
                 <TextField
                   inputRef={locationRef}
                   name="restaurant[location]"
-                  value={restaurant?.location}
+                  defaultValue={restaurant?.location}
                   required
                 />
               </div>
@@ -137,7 +138,7 @@ export default function EditRestaurantModal() {
                 <TextField
                   inputRef={pricingRef}
                   name="restaurant[pricing]"
-                  value={restaurant?.pricing}
+                  defaultValue={restaurant?.pricing}
                   helperText="$,$$,$$$"
                   required
                 />

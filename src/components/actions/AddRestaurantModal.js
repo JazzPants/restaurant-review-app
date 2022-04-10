@@ -53,7 +53,6 @@ export default function AddRestaurantModal() {
         user_id: 1,
         name: nameRef.current.value,
         description: descriptionRef.current.value,
-        rating: 4,
         category: categoryRef.current.value,
         location: locationRef.current.value,
         pricing: pricingRef.current.value,
