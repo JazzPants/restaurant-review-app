@@ -6,33 +6,41 @@ import {
   Rating,
   Box,
   Stack,
+  Card,
   TextField,
   Button,
+  CardContent,
+  CardActionArea,
 } from "@mui/material";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
 import EditRestaurantModal from "./actions/EditRestaurantModal";
 
 //shows in-depth look at the restaurant
 //top 3 dishes, menu(pop open), top-voted description, more reviews
 //pass props again all the way down from RestaurantCardsList to get all info (use redux to stop prop drilling)
+
+//TO-DO:
+//if review exists -> Your review:, else Add review
+//get ratings
+//get reviews
+
 function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
 
-  const handleShowAddReview = () => {
-    setShowAddReview((prev) => !prev);
-  };
-  //use params in "find" method for Restaurants Array Context
-  //useState
-  //restaurant, SetRestaurant
-  //params, SetParams
-
-  // const [restaurant, SetRestaurant] = useState();
+  const [reviews, setReviews] = useState([]);
   const { restaurants } = useRestaurants();
   const [restaurant, setRestaurant] = useState({});
   const params = useParams();
-  console.log(restaurants);
-  console.log(params.restaurantId);
+
+  //open close add-review box
+  const handleShowAddReview = () => {
+    setShowAddReview((prev) => !prev);
+    console.log(restaurants);
+    console.log(params.restaurantId);
+    console.log(restaurant?.id);
+    console.log(reviews);
+  };
 
   useEffect(() => {
     if (restaurants) {
@@ -41,7 +49,18 @@ function RestaurantCardFocus() {
       );
       setRestaurant(restaurantObj);
     }
+    handleGetReviews();
   }, [restaurants]);
+
+  //fetch reviews
+  const handleGetReviews = () => {
+    fetch(`http://localhost:3000/api/v1/restaurants/${restaurant?.id}/reviews`)
+      .then((response) => response.json())
+      .then((data) => {
+        setReviews(data);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const handleSubmitReview = () => {
     handleAddReview();
@@ -49,18 +68,12 @@ function RestaurantCardFocus() {
   };
 
   const handleAddReview = () => {
-    // fetch();
+    // fetch() POST and send object
+    //user id
+    //review content
+    //useParams -> restaurant ID
   };
 
-  // const restaurantsObj = useRestaurants();
-  // const restaurants = restaurantsObj.restaurants;
-  // console.log(restaurants);
-
-  // console.log(restaurant);
-
-  //get ratings
-  //get reviews
-  // let restaurant = getRestaurant(params.restaurantId);
   //conditional rendering to wait for data to be retrieved (band-aid fix?)
   //&& and ?.
   //modify context to wait for fetch (Loading...)
@@ -75,6 +88,17 @@ function RestaurantCardFocus() {
       <p>Location: {restaurant?.location}</p>
       <p>Pricing: {restaurant?.pricing}</p>
       <p>Reviews:</p>
+      <Stack>
+        {reviews.map((review, index) => (
+          <Card key={index} sx={{ maxWidth: 600 }}>
+            <CardActionArea>
+              <CardContent>
+                <Typography>{review.content}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        ))}
+      </Stack>
       <p>Gallery:</p>
       <Box>
         <p>Add Review:</p>
