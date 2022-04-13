@@ -2,11 +2,14 @@ import PersistentDrawerLeft from "./NavBar";
 import { Outlet, Link } from "react-router-dom";
 import RestaurantCardsList from "./RestaurantCardsList";
 import AddRestaurantModal from "./actions/AddRestaurantModal";
+import { Typography } from "@mui/material";
 
 export default function Home() {
   return (
     <>
       <PersistentDrawerLeft></PersistentDrawerLeft>
+      <Typography>Welcome, Guest</Typography>
+      <Link to="/login">Login</Link>{" "}
       <Link to="/restaurants">Random Restaurants</Link>{" "}
       <Link to="/styletest">Style Test</Link> <Outlet />
       <AddRestaurantModal></AddRestaurantModal>

@@ -52,7 +52,7 @@ function RestaurantCardFocus() {
     handleGetReviews();
   }, [restaurants]);
 
-  //fetch reviews
+  //fetch GET reviews
   const handleGetReviews = () => {
     fetch(`http://localhost:3000/api/v1/restaurants/${restaurant?.id}/reviews`)
       .then((response) => response.json())
@@ -67,6 +67,7 @@ function RestaurantCardFocus() {
     console.log("Submitting review...");
   };
 
+  //fetch POST reviews
   const handleAddReview = () => {
     // fetch() POST and send object
     //user id
@@ -90,9 +91,10 @@ function RestaurantCardFocus() {
       <p>Reviews:</p>
       <Stack>
         {reviews.map((review, index) => (
-          <Card key={index} sx={{ maxWidth: 600 }}>
+          <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
             <CardActionArea>
               <CardContent>
+                <Typography>User: {review.user_id}</Typography>
                 <Typography>{review.content}</Typography>
               </CardContent>
             </CardActionArea>

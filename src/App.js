@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import RestaurantCardsList from "./components/RestaurantCardsList";
 import RestaurantCardFocus from "./components/RestaurantCardFocus";
 import { RestaurantsProvider } from "./contexts/RestaurantsContext";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               element={<RestaurantCardFocus />}
             />
             <Route path="styletest" element={<StyleTest />} />
+            <Route path="login" element={<Login />} />
           </Route>
         </Routes>
       </RestaurantsProvider>
