@@ -14,11 +14,36 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     console.log("Form submitted");
+
+    fetch("http://localhost:3000/api/v1/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        user: {
+          name: register.name,
+          password: register.password,
+          password_confirmation: register.password_confirmation,
+        },
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
     event.preventDefault();
   };
 
   const handleChange = (event) => {
-    console.log("handle change", event);
+    // console.log("handle change", event);
+    // console.log(event.target.name);
+    // console.log(event.target.value);
+    setRegister((previousState) => {
+      return { ...previousState, [event.target.name]: event.target.value };
+    });
   };
   return (
     <>
