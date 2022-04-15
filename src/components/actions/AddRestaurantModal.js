@@ -19,6 +19,8 @@ export default function AddRestaurantModal() {
   const locationRef = useRef();
   const pricingRef = useRef();
   const [open, setOpen] = useState(false);
+  //TODO:
+  //addRestaurant, setAddRestaurant to save info if user clicks out accidentally
 
   const handleOpen = () => {
     setOpen(true);

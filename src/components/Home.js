@@ -1,6 +1,5 @@
 import PersistentDrawerLeft from "./NavBar";
 import { Outlet, Link } from "react-router-dom";
-import RestaurantCardsList from "./RestaurantCardsList";
 import AddRestaurantModal from "./actions/AddRestaurantModal";
 import { Typography } from "@mui/material";
 

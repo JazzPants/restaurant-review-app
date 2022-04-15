@@ -15,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
 import EditRestaurantModal from "./actions/EditRestaurantModal";
+import ReviewsCardsList from "./ReviewsCardsList";
 
 //shows in-depth look at the restaurant
 //top 3 dishes, menu(pop open), top-voted description, more reviews
@@ -29,17 +30,19 @@ function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
 
   const [reviews, setReviews] = useState([]);
+  const [openReviews, setOpenReviews] = useState(false);
   const { restaurants } = useRestaurants();
   const [restaurant, setRestaurant] = useState({});
   const params = useParams();
+  // const [params, setParams] = useState(useParams());
 
   //open close add-review box
   const handleShowAddReview = () => {
     setShowAddReview((prev) => !prev);
     console.log(restaurants);
     console.log(params.restaurantId);
-    console.log(restaurant?.id);
-    console.log(reviews);
+    console.log(`restaurant id is: ${restaurant?.id}`);
+    // console.log(reviews);
   };
 
   useEffect(() => {
@@ -49,17 +52,27 @@ function RestaurantCardFocus() {
       );
       setRestaurant(restaurantObj);
     }
-    handleGetReviews();
-  }, [restaurants]);
+  }, [params.restaurantId, restaurants]); //whenever restaurants object changes, e.g. on fetch, re-render component
 
   //fetch GET reviews
-  const handleGetReviews = () => {
-    fetch(`http://localhost:3000/api/v1/restaurants/${restaurant?.id}/reviews`)
-      .then((response) => response.json())
-      .then((data) => {
-        setReviews(data);
-      })
-      .catch((error) => console.log(error));
+
+  useEffect(() => {
+    const handleGetReviews = () => {
+      fetch(
+        `http://localhost:3000/api/v1/restaurants/${restaurant?.id}/reviews`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setReviews(data);
+        })
+        .catch((error) => console.log(error));
+    };
+    handleGetReviews();
+  }, [restaurant]);
+
+  const handleShowReviews = () => {
+    setOpenReviews(!openReviews);
+    console.log(reviews);
   };
 
   const handleSubmitReview = () => {
@@ -89,18 +102,27 @@ function RestaurantCardFocus() {
       <p>Location: {restaurant?.location}</p>
       <p>Pricing: {restaurant?.pricing}</p>
       <p>Reviews:</p>
-      <Stack>
-        {reviews.map((review, index) => (
-          <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
-            <CardActionArea>
-              <CardContent>
-                <Typography>User: {review.user_id}</Typography>
-                <Typography>{review.content}</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
-      </Stack>
+      <Button variant="outlined" onClick={handleShowReviews}>
+        Show
+      </Button>
+      {openReviews && (
+        <div>
+          {reviews.length === 0 ? (
+            <Typography>No reviews exist for this restaurant yet!</Typography>
+          ) : (
+            reviews.map((review, index) => (
+              <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography>User: {review.user_id}</Typography>
+                    <Typography>{review.content}</Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))
+          )}
+        </div>
+      )}
       <p>Gallery:</p>
       <Box>
         <p>Add Review:</p>

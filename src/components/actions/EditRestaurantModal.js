@@ -1,11 +1,8 @@
 import {
-  Modal,
   Dialog,
   TextField,
   Box,
   Typography,
-  FormHelperText,
-  TextareaAutosize,
   Button,
   Stack,
 } from "@mui/material";
@@ -42,7 +39,7 @@ export default function EditRestaurantModal() {
       );
       setRestaurant(restaurantObj);
     }
-  }, [restaurants]);
+  }, [params.restaurantId, restaurants]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
