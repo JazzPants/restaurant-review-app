@@ -17,10 +17,11 @@ export default function Register() {
 
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
+
       body: JSON.stringify({
         user: {
           name: register.name,
@@ -30,6 +31,7 @@ export default function Register() {
       }),
     })
       .then((response) => {
+        console.log("registration response", response);
         return response.json();
       })
       .then((data) => console.log(data))
