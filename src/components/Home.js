@@ -9,7 +9,8 @@ export default function Home() {
     <>
       <PersistentDrawerLeft></PersistentDrawerLeft>
       <Typography>Welcome, Guest</Typography>
-      <Link to="/login">Login</Link>{" "}
+      <Link to="/login">Login</Link> <Link to="/register">Register</Link>{" "}
+      <Link to="/dashboard">Dashboard</Link>{" "}
       <Link to="/restaurants">Random Restaurants</Link>{" "}
       <Link to="/styletest">Style Test</Link> <Outlet />
       <AddRestaurantModal></AddRestaurantModal>

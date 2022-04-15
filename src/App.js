@@ -6,6 +6,8 @@ import RestaurantCardsList from "./components/RestaurantCardsList";
 import RestaurantCardFocus from "./components/RestaurantCardFocus";
 import { RestaurantsProvider } from "./contexts/RestaurantsContext";
 import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -16,7 +18,8 @@ function App() {
             path="*"
             element={
               <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
+                <p>There's nothing here! Go back:</p>
+                <Link to="/">Home</Link>
               </main>
             }
           />
@@ -29,6 +32,8 @@ function App() {
             />
             <Route path="styletest" element={<StyleTest />} />
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
       </RestaurantsProvider>
