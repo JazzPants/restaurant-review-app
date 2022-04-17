@@ -38,7 +38,7 @@ export default function Register() {
       })
       .then((data) => {
         if (data.status === "created") {
-          handleSuccessfulAuth(data);
+          handleSuccessfulAuth(data.user);
         }
         console.log(data);
       })
