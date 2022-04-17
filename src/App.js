@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import StyleTest from "./components/StyleTest";
 import Home from "./components/Home";
@@ -8,8 +8,20 @@ import { RestaurantsProvider } from "./contexts/RestaurantsContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import { useState } from "react";
 
 function App() {
+  const [userStatus, setUserStatus] = useState({
+    loggedInStatus: "NOT_LOGGED_IN",
+    user: {},
+  });
+
+  useEffect(() => {
+    // setState();
+    console.log(userStatus);
+  });
+
+  // const someObj = { loggedInStatus: "NOT_LOGGED_IN", user: {} };
   return (
     <React.Fragment>
       <RestaurantsProvider>

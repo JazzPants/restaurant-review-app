@@ -50,16 +50,16 @@ export default function ReviewsCardsList() {
           <Typography>No reviews exist for this restaurant yet!</Typography>
         ) : (
           <p>Loading...</p>
-          // reviews.map((review, index) => (
-          //   <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
-          //     <CardActionArea>
-          //       <CardContent>
-          //         <Typography>User: {review.user_id}</Typography>
-          //         <Typography>{review.content}</Typography>
-          //       </CardContent>
-          //     </CardActionArea>
-          //   </Card>
-          // ))
+        //   reviews.map((review, index) => (
+        //     <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
+        //       <CardActionArea>
+        //         <CardContent>
+        //           <Typography>User: {review.user_id}</Typography>
+        //           <Typography>{review.content}</Typography>
+        //         </CardContent>
+        //       </CardActionArea>
+        //     </Card>
+        //   ))
         )}
       </Stack>
     </>
