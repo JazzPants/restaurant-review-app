@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import StyleTest from "./components/StyleTest";
 import Home from "./components/Home";
@@ -8,47 +8,40 @@ import { RestaurantsProvider } from "./contexts/RestaurantsContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
-import { useState } from "react";
+
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
-  const [userStatus, setUserStatus] = useState({
-    loggedInStatus: "NOT_LOGGED_IN",
-    user: {},
-  });
-
-  useEffect(() => {
-    // setState();
-    console.log(userStatus);
-  });
-
   // const someObj = { loggedInStatus: "NOT_LOGGED_IN", user: {} };
   return (
     <React.Fragment>
-      <RestaurantsProvider>
-        <Routes>
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here! Go back:</p>
-                <Link to="/">Home</Link>
-              </main>
-            }
-          />
-          <Route path="/" element={<Home />}>
-            {/* <Route path="/user/userid" element={<User />} /> */}
-            <Route path="restaurants" element={<RestaurantCardsList />} />
+      <UserProvider>
+        <RestaurantsProvider>
+          <Routes>
             <Route
-              path="restaurant/:restaurantId"
-              element={<RestaurantCardFocus />}
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here! Go back:</p>
+                  <Link to="/">Home</Link>
+                </main>
+              }
             />
-            <Route path="styletest" element={<StyleTest />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="dashboard" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </RestaurantsProvider>
+            <Route path="/" element={<Home />}>
+              {/* <Route path="/user/userid" element={<User />} /> */}
+              <Route path="restaurants" element={<RestaurantCardsList />} />
+              <Route
+                path="restaurant/:restaurantId"
+                element={<RestaurantCardFocus />}
+              />
+              <Route path="styletest" element={<StyleTest />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="dashboard" element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </RestaurantsProvider>
+      </UserProvider>
     </React.Fragment>
   );
 }

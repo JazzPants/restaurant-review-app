@@ -1,7 +1,9 @@
 import { Box, Stack, TextField, Typography, Button } from "@mui/material";
 import { useState, useRef } from "react";
+import { useUser } from "../contexts/UserContext";
 
 export default function Register() {
+  const { handleSuccessfulAuth } = useUser();
   const usernameRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
@@ -34,7 +36,12 @@ export default function Register() {
         console.log("registration response", response);
         return response.json();
       })
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data.status === "created") {
+          handleSuccessfulAuth(data.status);
+        }
+        console.log(data);
+      })
       .catch((error) => console.log(error));
     event.preventDefault();
   };
