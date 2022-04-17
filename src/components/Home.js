@@ -7,8 +7,10 @@ import { useUser } from "../contexts/UserContext";
 export default function Home() {
   const { userStatus } = useUser();
   const { loggedInStatus, user } = userStatus;
+  // const { name } = user;
   return (
     <>
+      {/* {console.log(data)} */}
       <PersistentDrawerLeft></PersistentDrawerLeft>
       <Typography>Welcome, Guest</Typography>
       <Typography>You are currently logged in as: {loggedInStatus}</Typography>

@@ -14,7 +14,15 @@ export const UserProvider = ({ children }) => {
   //TODO update parent component
   //redirect user //this.props.histroy.push("/dashboard")
   const handleSuccessfulAuth = (data) => {
+    handleLogin(data);
     navigate("/dashboard");
+  };
+
+  const handleLogin = (data) => {
+    setUserStatus({
+      loggedInStatus: "LOGGED_IN",
+      user: data,
+    });
   };
 
   useEffect(() => {
