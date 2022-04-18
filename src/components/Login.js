@@ -11,8 +11,8 @@ export default function Login() {
   //handleLogin
 
   const { handleSuccessfulAuth } = useUser();
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  // const usernameRef = useRef();
+  // const passwordRef = useRef();
   const [login, setLogin] = useState({
     name: "",
     password: "",
@@ -47,7 +47,7 @@ export default function Login() {
         }
         console.log("session", data);
       })
-      .catch((error) => console.log("login error", error));
+      .catch((error) => console.log("There was a login error!", error));
     event.preventDefault();
   };
 
@@ -70,7 +70,7 @@ export default function Login() {
               <TextField
                 name="name"
                 placeholder="Username"
-                inputRef={usernameRef}
+                // inputRef={usernameRef}
                 onChange={handleChange}
                 required
               ></TextField>
@@ -81,7 +81,7 @@ export default function Login() {
                 type="password"
                 name="password"
                 placeholder="Password"
-                inputRef={passwordRef}
+                // inputRef={passwordRef}
                 onChange={handleChange}
                 required
               ></TextField>

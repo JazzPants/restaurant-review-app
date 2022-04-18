@@ -12,10 +12,11 @@ import {
   CardContent,
   CardActionArea,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
 import EditRestaurantModal from "./actions/EditRestaurantModal";
 import ReviewsCardsList from "./ReviewsCardsList";
+import { useUser } from "../contexts/UserContext";
 
 //shows in-depth look at the restaurant
 //top 3 dishes, menu(pop open), top-voted description, more reviews
@@ -29,20 +30,23 @@ import ReviewsCardsList from "./ReviewsCardsList";
 function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
 
+  const { userStatus } = useUser();
+
   const [reviews, setReviews] = useState([]);
   const [openReviews, setOpenReviews] = useState(false);
   const { restaurants } = useRestaurants();
   const [restaurant, setRestaurant] = useState({});
   const params = useParams();
+  const reviewRef = useRef();
   // const [params, setParams] = useState(useParams());
 
   //open close add-review box
   const handleShowAddReview = () => {
     setShowAddReview((prev) => !prev);
-    console.log(restaurants);
+    // console.log(restaurants);
     console.log(params.restaurantId);
     console.log(`restaurant id is: ${restaurant?.id}`);
-    // console.log(reviews);
+    console.log(`user id is: ${userStatus.user.id}`);
   };
 
   useEffect(() => {
@@ -75,17 +79,41 @@ function RestaurantCardFocus() {
     console.log(reviews);
   };
 
-  const handleSubmitReview = () => {
+  const handleSubmitReview = (event) => {
     handleAddReview();
     console.log("Submitting review...");
+    event.preventDefault();
   };
+  //TODO: get content from textfield for review
 
   //fetch POST reviews
   const handleAddReview = () => {
+    fetch(
+      `http://localhost:3000/api/v1/restaurants/${restaurant?.id}/reviews`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          review: {
+            content: reviewRef.current.value,
+            user_id: userStatus.user.id,
+            restaurant_id: restaurant?.id,
+          },
+        }),
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
     // fetch() POST and send object
     //user id
     //review content
-    //useParams -> restaurant ID
+    //restaurantObj -> restaurant ID
   };
 
   //conditional rendering to wait for data to be retrieved (band-aid fix?)
@@ -126,26 +154,37 @@ function RestaurantCardFocus() {
       <p>Gallery:</p>
       <Box>
         <p>Add Review:</p>
+        {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+          showAddReview && (
+            <Typography>You must be logged in to add a review!</Typography>
+          )
+        ) : (
+          <div>
+            {" "}
+            {showAddReview && (
+              <form>
+                <Stack>
+                  {" "}
+                  <TextField
+                    inputRef={reviewRef}
+                    label="Review content"
+                    InputProps={{ style: { fontSize: 14 } }}
+                    name="restaurant[review]"
+                    multiline
+                    rows={3}
+                    required
+                  />
+                </Stack>
+                <Button variant="outlined" type="submit">
+                  Submit Review
+                </Button>
+              </form>
+            )}
+          </div>
+        )}
         <Button variant="outlined" onClick={handleShowAddReview}>
           +
         </Button>
-        {showAddReview && (
-          <form>
-            <Stack>
-              {" "}
-              <TextField
-                // inputRef={reviewRef}
-                label="Review content"
-                InputProps={{ style: { fontSize: 14 } }}
-                name="restaurant[review]"
-                multiline
-                rows={3}
-                required
-              />
-            </Stack>
-            <Button variant="outlined">Submit Review</Button>
-          </form>
-        )}
       </Box>
       <p>Give Rating:</p>
       <EditRestaurantModal></EditRestaurantModal>

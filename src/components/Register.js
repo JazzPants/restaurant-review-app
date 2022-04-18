@@ -4,9 +4,9 @@ import { useUser } from "../contexts/UserContext";
 
 export default function Register() {
   const { handleSuccessfulAuth } = useUser();
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmationRef = useRef();
+  // const usernameRef = useRef();
+  // const passwordRef = useRef();
+  // const passwordConfirmationRef = useRef();
   const [register, setRegister] = useState({
     name: "",
     password: "",
@@ -73,7 +73,7 @@ export default function Register() {
               <TextField
                 name="name"
                 placeholder="Username"
-                inputRef={usernameRef}
+                // inputRef={usernameRef}
                 onChange={handleChange}
                 required
               ></TextField>
@@ -84,7 +84,7 @@ export default function Register() {
                 type="password"
                 name="password"
                 placeholder="Password"
-                inputRef={passwordRef}
+                // inputRef={passwordRef}
                 onChange={handleChange}
                 required
               ></TextField>
@@ -95,7 +95,7 @@ export default function Register() {
                 type="password"
                 name="password_confirmation"
                 placeholder="Password confirmation"
-                inputRef={passwordConfirmationRef}
+                // inputRef={passwordConfirmationRef}
                 onChange={handleChange}
                 required
               ></TextField>

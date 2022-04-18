@@ -51,6 +51,13 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const handleLogout = () => {
+    setUserStatus({
+      loggedInStatus: "NOT_LOGGED_IN",
+      user: {},
+    });
+  };
+
   useEffect(() => {
     setUserStatus({
       loggedInStatus: "NOT_LOGGED_IN",
@@ -59,7 +66,12 @@ export const UserProvider = ({ children }) => {
   }, []);
   return (
     <UserContext.Provider
-      value={{ userStatus, handleSuccessfulAuth, checkLoginStatus }}
+      value={{
+        userStatus,
+        handleSuccessfulAuth,
+        checkLoginStatus,
+        handleLogout,
+      }}
     >
       {children}
     </UserContext.Provider>
