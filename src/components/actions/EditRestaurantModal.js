@@ -25,6 +25,7 @@ export default function EditRestaurantModal() {
   const handleOpen = () => {
     setOpen(true);
     console.log(`Restaurant id is: ${restaurant.id}`);
+    console.log(`Restaurant user_id is: ${restaurant.user_id}`);
   };
 
   const handleClose = () => {
@@ -53,7 +54,9 @@ export default function EditRestaurantModal() {
   //   handleAddRestaurant();
   // }, []);
 
-  //if user id === user_id of current restaurant, allow to PATCH, else render message "not creator of restaraunt"
+  //TODO:
+  //if LOGGEDIN AND user id of current userstatus === user_id of current restaurant,
+  //allow to PATCH, else render message "not creator of restaraunt"
   const handleEditRestaurant = () => {
     //fetch PATCH object of current restaurant ID
     fetch(`http://localhost:3000/api/v1/restaurants/${restaurant.id}`, {
@@ -63,7 +66,7 @@ export default function EditRestaurantModal() {
       },
       //restaurant object here
       body: JSON.stringify({
-        user_id: 1,
+        user_id: restaurant.user_id,
         name: nameRef.current.value,
         description: descriptionRef.current.value,
         category: categoryRef.current.value,

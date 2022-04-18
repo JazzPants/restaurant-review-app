@@ -10,6 +10,20 @@ export function useUser() {
 export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [userStatus, setUserStatus] = useState({});
+  const [userNames, setUserNames] = useState([]);
+
+  //get user user_ids and names
+  useEffect(() => {
+    fetch("http://localhost:3000/api/v1/users", {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserNames(data);
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const checkLoginStatus = () => {
     fetch("http://localhost:3000/api/v1/logged_in", {
@@ -71,6 +85,7 @@ export const UserProvider = ({ children }) => {
         handleSuccessfulAuth,
         checkLoginStatus,
         handleLogout,
+        userNames,
       }}
     >
       {children}

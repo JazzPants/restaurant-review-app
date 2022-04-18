@@ -32,6 +32,8 @@ function RestaurantCardFocus() {
   const [userReview, setUserReview] = useState(false);
 
   const { userStatus } = useUser();
+  const { userNames } = useUser();
+  // const { userNames } = useUserNames();
 
   const [reviews, setReviews] = useState([]);
   const [openReviews, setOpenReviews] = useState(false);
@@ -152,7 +154,14 @@ function RestaurantCardFocus() {
               <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
                 <CardActionArea>
                   <CardContent>
-                    <Typography>User: {review.user_id}</Typography>
+                    {/* TODO: get user names based on user_id -> need a GET on users */}
+                    <Typography>
+                      User:{" "}
+                      {
+                        userNames.find((user) => user.id === review.user_id)
+                          .name
+                      }
+                    </Typography>
                     <Typography>{review.content}</Typography>
                   </CardContent>
                 </CardActionArea>
