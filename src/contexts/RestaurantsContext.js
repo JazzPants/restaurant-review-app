@@ -18,7 +18,9 @@ export const RestaurantsProvider = ({ children }) => {
   //   const [isUpdated, setUpdated] = useState(false)
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/restaurants")
+    fetch("http://localhost:3000/api/v1/restaurants", {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         setRestaurants(data);

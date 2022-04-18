@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import StyleTest from "./components/StyleTest";
 import Home from "./components/Home";
@@ -12,7 +12,6 @@ import Dashboard from "./components/Dashboard";
 import { UserProvider } from "./contexts/UserContext";
 
 function App() {
-  // const someObj = { loggedInStatus: "NOT_LOGGED_IN", user: {} };
   return (
     <React.Fragment>
       <UserProvider>

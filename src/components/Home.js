@@ -3,10 +3,16 @@ import { Outlet, Link } from "react-router-dom";
 import AddRestaurantModal from "./actions/AddRestaurantModal";
 import { Typography } from "@mui/material";
 import { useUser } from "../contexts/UserContext";
+import { useEffect } from "react";
 
 export default function Home() {
   const { userStatus } = useUser();
   const { loggedInStatus, user } = userStatus;
+  const { checkLoginStatus } = useUser();
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, [checkLoginStatus]);
   // const { name } = user;
   return (
     <>
