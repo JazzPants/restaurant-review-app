@@ -188,9 +188,7 @@ function RestaurantCardFocus() {
         <Box sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}>
           <p>Add Review:</p>
           {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
-            showAddReview && (
-              <Typography>You must be logged in to add a review!</Typography>
-            )
+            <Typography>You must be logged in to add a review!</Typography>
           ) : (
             <div>
               {" "}
@@ -226,6 +224,10 @@ function RestaurantCardFocus() {
       )}
 
       <p>Give Rating:</p>
+      {userStatus.loggedInStatus === "NOT_LOGGED_IN" && (
+        <Typography>You must be logged in to edit this Restaurant!</Typography>
+      )}
+
       <EditRestaurantModal></EditRestaurantModal>
       <Link to="/">Home</Link>
     </>

@@ -5,8 +5,8 @@ import Home from "./components/Home";
 import RestaurantCardsList from "./components/RestaurantCardsList";
 import RestaurantCardFocus from "./components/RestaurantCardFocus";
 import { RestaurantsProvider } from "./contexts/RestaurantsContext";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./components/actions/Login";
+import Register from "./components/actions/Register";
 import Dashboard from "./components/Dashboard";
 
 import { UserProvider } from "./contexts/UserContext";

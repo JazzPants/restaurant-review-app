@@ -1,6 +1,6 @@
 import { Box, Stack, TextField, Typography, Button } from "@mui/material";
 import { useState, useRef } from "react";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
 
 export default function Register() {
   const { handleSuccessfulAuth } = useUser();

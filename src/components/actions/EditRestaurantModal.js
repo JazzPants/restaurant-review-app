@@ -9,10 +9,12 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useRestaurants } from "../../contexts/RestaurantsContext";
+import { useUser } from "../../contexts/UserContext";
 
 export default function EditRestaurantModal() {
   //get values for current restaurant and prefill form
   const { restaurants } = useRestaurants();
+  const { userStatus } = useUser();
   const [restaurant, setRestaurant] = useState();
   const params = useParams();
   const nameRef = useRef();
@@ -49,13 +51,9 @@ export default function EditRestaurantModal() {
     console.log("submitting restaurant...");
     handleClose();
   };
-
-  // useEffect(() => {
-  //   handleAddRestaurant();
-  // }, []);
-
   //TODO:
-  //if LOGGEDIN AND user id of current userstatus === user_id of current restaurant,
+  //if LOGGEDIN (done)
+  //IF current logged in user id matches user id of current restaurant,
   //allow to PATCH, else render message "not creator of restaraunt"
   const handleEditRestaurant = () => {
     //fetch PATCH object of current restaurant ID
@@ -83,9 +81,16 @@ export default function EditRestaurantModal() {
 
   return (
     <div>
-      <Button type="Button" onClick={handleOpen}>
-        Edit Restaurant
-      </Button>
+      {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+        <Button type="Button" disabled>
+          Edit Restaurant
+        </Button>
+      ) : (
+        <Button type="Button" onClick={handleOpen}>
+          Edit Restaurant
+        </Button>
+      )}
+
       <Dialog open={open}>
         <Box sx={{ p: 2 }}>
           <form onSubmit={handleSubmit}>

@@ -1,7 +1,7 @@
 import PersistentDrawerLeft from "./NavBar";
 import { Outlet, Link } from "react-router-dom";
 import AddRestaurantModal from "./actions/AddRestaurantModal";
-import { Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useUser } from "../contexts/UserContext";
 import { useEffect } from "react";
 
@@ -34,21 +34,29 @@ export default function Home() {
   };
   return (
     <>
-      {/* {console.log(data)} */}
-      <PersistentDrawerLeft></PersistentDrawerLeft>
-      {loggedInStatus === "LOGGED_IN" ? (
-        <Typography>Welcome, {userStatus.user?.name}</Typography>
-      ) : (
-        <Typography>Welcome, Guest</Typography>
-      )}
-      <Link to="/login">Login</Link> <Link to="/register">Register</Link>{" "}
-      <Link to="/dashboard">Dashboard</Link>{" "}
-      <Link to="/restaurants">Random Restaurants</Link>{" "}
-      <Link to="/styletest">Style Test</Link> <Outlet />
-      <Button variant="outlined" onClick={handleLogoutClick}>
-        Logout
-      </Button>
-      <AddRestaurantModal></AddRestaurantModal>
+      <Box p={5}>
+        {/* {console.log(data)} */}
+        <PersistentDrawerLeft></PersistentDrawerLeft>
+        {loggedInStatus === "LOGGED_IN" ? (
+          <Typography>Welcome, {userStatus.user?.name}</Typography>
+        ) : (
+          <Typography>Welcome, Guest</Typography>
+        )}
+        <Link to="/login">Login</Link> <Link to="/register">Register</Link>{" "}
+        <Link to="/dashboard">Dashboard</Link>{" "}
+        <Link to="/restaurants">Random Restaurants</Link>{" "}
+        <Link to="/styletest">Style Test</Link> <Outlet />
+        {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+          <Button type="Button" disabled>
+            Logout
+          </Button>
+        ) : (
+          <Button variant="outlined" onClick={handleLogoutClick}>
+            Logout
+          </Button>
+        )}
+        <AddRestaurantModal></AddRestaurantModal>
+      </Box>
     </>
   );
 }
