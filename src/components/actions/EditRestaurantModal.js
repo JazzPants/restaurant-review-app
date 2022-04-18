@@ -53,6 +53,7 @@ export default function EditRestaurantModal() {
   //   handleAddRestaurant();
   // }, []);
 
+  //if user id === user_id of current restaurant, allow to PATCH, else render message "not creator of restaraunt"
   const handleEditRestaurant = () => {
     //fetch PATCH object of current restaurant ID
     fetch(`http://localhost:3000/api/v1/restaurants/${restaurant.id}`, {

@@ -29,6 +29,7 @@ import { useUser } from "../contexts/UserContext";
 
 function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
+  const [userReview, setUserReview] = useState(false);
 
   const { userStatus } = useUser();
 
@@ -74,18 +75,21 @@ function RestaurantCardFocus() {
     handleGetReviews();
   }, [restaurant]);
 
+  useEffect(() => {
+    const handleGetUserReview = () => {
+      setUserReview(
+        reviews.find((review) => review.user_id === userStatus.user.id)
+      );
+    };
+    handleGetUserReview();
+  }, [reviews, userStatus]);
+
   const handleShowReviews = () => {
     setOpenReviews(!openReviews);
     console.log(reviews);
   };
 
-  const handleSubmitReview = (event) => {
-    handleAddReview();
-    console.log("Submitting review...");
-    event.preventDefault();
-  };
   //TODO: get content from textfield for review
-
   //fetch POST reviews
   const handleAddReview = () => {
     fetch(
@@ -114,6 +118,12 @@ function RestaurantCardFocus() {
     //user id
     //review content
     //restaurantObj -> restaurant ID
+  };
+
+  const handleSubmitReview = (event) => {
+    handleAddReview();
+    console.log("Submitting review...");
+    event.preventDefault();
   };
 
   //conditional rendering to wait for data to be retrieved (band-aid fix?)
@@ -152,40 +162,60 @@ function RestaurantCardFocus() {
         </div>
       )}
       <p>Gallery:</p>
-      <Box>
-        <p>Add Review:</p>
-        {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
-          showAddReview && (
-            <Typography>You must be logged in to add a review!</Typography>
-          )
-        ) : (
-          <div>
+      {/* if review exists for user, display their review, AND exclude the review box */}
+      {userReview ? (
+        <Box sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}>
+          <p>Your review: </p>
+          <Card sx={{ maxWidth: 3 / 4, height: "150px" }}>
             {" "}
-            {showAddReview && (
-              <form>
-                <Stack>
-                  {" "}
-                  <TextField
-                    inputRef={reviewRef}
-                    label="Review content"
-                    InputProps={{ style: { fontSize: 14 } }}
-                    name="restaurant[review]"
-                    multiline
-                    rows={3}
-                    required
-                  />
-                </Stack>
-                <Button variant="outlined" type="submit">
-                  Submit Review
-                </Button>
-              </form>
-            )}
-          </div>
-        )}
-        <Button variant="outlined" onClick={handleShowAddReview}>
-          +
-        </Button>
-      </Box>
+            <CardActionArea>
+              <CardContent>
+                <Typography>{userReview?.content}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Box>
+      ) : (
+        <Box sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}>
+          <p>Add Review:</p>
+          {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+            showAddReview && (
+              <Typography>You must be logged in to add a review!</Typography>
+            )
+          ) : (
+            <div>
+              {" "}
+              {showAddReview && (
+                <form>
+                  <Stack>
+                    {" "}
+                    <TextField
+                      inputRef={reviewRef}
+                      label="Review content"
+                      InputProps={{ style: { fontSize: 14 } }}
+                      name="restaurant[review]"
+                      multiline
+                      rows={3}
+                      required
+                    />
+                  </Stack>
+                  <Button
+                    variant="outlined"
+                    type="submit"
+                    onClick={handleSubmitReview}
+                  >
+                    Submit Review
+                  </Button>
+                </form>
+              )}
+            </div>
+          )}
+          <Button variant="outlined" onClick={handleShowAddReview}>
+            +
+          </Button>
+        </Box>
+      )}
+
       <p>Give Rating:</p>
       <EditRestaurantModal></EditRestaurantModal>
       <Link to="/">Home</Link>
