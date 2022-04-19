@@ -10,6 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
+import { useUser } from "../../contexts/UserContext";
 // import { useRestaurants } from "../contexts/RestaurantsContext";
 
 export default function AddRestaurantModal() {
@@ -19,6 +20,7 @@ export default function AddRestaurantModal() {
   const locationRef = useRef();
   const pricingRef = useRef();
   const [open, setOpen] = useState(false);
+  const { userStatus } = useUser();
   //TODO:
   //addRestaurant, setAddRestaurant to save info if user clicks out accidentally
 
@@ -68,10 +70,27 @@ export default function AddRestaurantModal() {
   };
 
   return (
-    <div>
-      <Button type="Button" onClick={handleOpen}>
-        Add Restaurant
-      </Button>
+    <>
+      {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+        <Stack direction="row" spacing={2}>
+          <Button sx={{ m: 1 }} type="Button" variant="outlined" disabled>
+            Add Restaurant
+          </Button>
+          <Typography sx={{ p: 2 }} variant="caption">
+            Log in to add a restaurant!
+          </Typography>
+        </Stack>
+      ) : (
+        <Button
+          sx={{ m: 1 }}
+          type="Button"
+          variant="outlined"
+          onClick={handleOpen}
+        >
+          Add Restaurant
+        </Button>
+      )}
+
       <Dialog open={open}>
         <Box sx={{ p: 2 }}>
           <form onSubmit={handleSubmit}>
@@ -145,6 +164,6 @@ export default function AddRestaurantModal() {
           </form>
         </Box>
       </Dialog>
-    </div>
+    </>
   );
 }

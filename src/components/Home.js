@@ -47,11 +47,11 @@ export default function Home() {
         <Link to="/restaurants">Random Restaurants</Link>{" "}
         <Link to="/styletest">Style Test</Link> <Outlet />
         {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
-          <Button type="Button" disabled>
+          <Button sx={{ m: 1 }} type="Button" variant="outlined" disabled>
             Logout
           </Button>
         ) : (
-          <Button variant="outlined" onClick={handleLogoutClick}>
+          <Button sx={{ m: 1 }} variant="outlined" onClick={handleLogoutClick}>
             Logout
           </Button>
         )}
