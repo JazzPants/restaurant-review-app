@@ -28,17 +28,22 @@ import { useUser } from "../contexts/UserContext";
 //get reviews
 
 function RestaurantCardFocus() {
+  const [reviews, setReviews] = useState([]);
+  const [openReviews, setOpenReviews] = useState(false);
   const [showAddReview, setShowAddReview] = useState(false);
   const [userReview, setUserReview] = useState(false);
 
   const { userStatus } = useUser();
   const { userNames } = useUser();
-  // const { userNames } = useUserNames();
 
-  const [reviews, setReviews] = useState([]);
-  const [openReviews, setOpenReviews] = useState(false);
   const { restaurants } = useRestaurants();
   const [restaurant, setRestaurant] = useState({});
+
+  const [ratings, setRatings] = useState([]);
+  const [openRatings, setOpenRatings] = useState(false);
+  const [averageRating, setAverageRating] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+
   const params = useParams();
   const reviewRef = useRef();
   // const [params, setParams] = useState(useParams());
@@ -50,6 +55,7 @@ function RestaurantCardFocus() {
     console.log(params.restaurantId);
     console.log(`restaurant id is: ${restaurant?.id}`);
     console.log(`user id is: ${userStatus.user.id}`);
+    console.log(ratings);
   };
 
   useEffect(() => {
@@ -89,6 +95,7 @@ function RestaurantCardFocus() {
   const handleShowReviews = () => {
     setOpenReviews(!openReviews);
     console.log(reviews);
+    console.log(userRating);
   };
 
   //TODO: get content from textfield for review
@@ -128,6 +135,49 @@ function RestaurantCardFocus() {
     event.preventDefault();
   };
 
+  //get ratings
+  useEffect(() => {
+    const handleGetRatings = () => {
+      fetch(
+        `http://localhost:3000/api/v1/restaurants/${restaurant?.id}/ratings`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setRatings(data);
+        })
+        .catch((error) => console.log(error));
+    };
+    handleGetRatings();
+  }, [restaurant]);
+
+  //average rating
+  useEffect(() => {
+    const handleGetAverageRating = () => {
+      const ratingsArray = ratings.map((rating) => rating.value);
+      const sum = ratingsArray.reduce((a, b) => a + b, 0);
+      setAverageRating(sum / ratingsArray.length);
+      console.log(ratingsArray);
+    };
+    handleGetAverageRating();
+  }, [ratings]);
+
+  //user rating
+  useEffect(() => {
+    const handleGetUserRating = () => {
+      const ratingObj = ratings.find(
+        (rating) => rating.user_id === userStatus.user.id
+      );
+      console.log(ratingObj);
+      if (ratingObj) {
+        setUserRating(ratingObj.value);
+      } else {
+        setUserRating(0);
+      }
+    };
+    handleGetUserRating();
+  }, [ratings, userStatus]);
+
   //conditional rendering to wait for data to be retrieved (band-aid fix?)
   //&& and ?.
   //modify context to wait for fetch (Loading...)
@@ -138,7 +188,8 @@ function RestaurantCardFocus() {
       <h2>{restaurant?.name}</h2>
       <p>{restaurant?.description}</p>
       <Typography>Average Rating:</Typography>
-      <Rating name="read-only" value={restaurant?.rating} readOnly />
+
+      <Rating name="read-only" value={averageRating} precision={0.5} readOnly />
       <p>Location: {restaurant?.location}</p>
       <p>Pricing: {restaurant?.pricing}</p>
       <p>Reviews:</p>
@@ -174,8 +225,8 @@ function RestaurantCardFocus() {
       {/* if review exists for user, display their review, AND exclude the review box */}
       {userReview ? (
         <Box sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}>
-          <p>Your review: </p>
-          <Card sx={{ maxWidth: 3 / 4, height: "150px" }}>
+          <Typography sx={{ p: 1 }}>Your review: </Typography>
+          <Card sx={{ p: 2, height: "200px" }}>
             {" "}
             <CardActionArea>
               <CardContent>
@@ -223,7 +274,18 @@ function RestaurantCardFocus() {
         </Box>
       )}
 
-      <p>Give Rating:</p>
+      <Typography>Your current rating:</Typography>
+      {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
+        <Box>
+          <Typography>You must be logged in to give a rating!</Typography>
+          <Rating value={0} precision={0.5}></Rating>
+        </Box>
+      ) : (
+        <Box>
+          <Rating value={userRating} precision={0.5}></Rating>
+        </Box>
+      )}
+
       {userStatus.loggedInStatus === "NOT_LOGGED_IN" && (
         <Typography>You must be logged in to edit this Restaurant!</Typography>
       )}
