@@ -11,12 +11,12 @@ import { Restaurant } from "@mui/icons-material";
 //pass props and display Card based on those props
 export default function RestaurantCard(props) {
   return (
-    <Card sx={{ maxWidth: 500 }}>
+    <Card sx={{ maxWidth: 500, minHeight: 400, bgcolor: "#e57373" }}>
       <CardActionArea>
         <CardMedia component="img" height="140" image="" alt={props.name} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {props.name}
+            {props.name} ({props.category})
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {props.description}

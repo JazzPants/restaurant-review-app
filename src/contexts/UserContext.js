@@ -20,7 +20,6 @@ export const UserProvider = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         setUserNames(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -30,7 +29,7 @@ export const UserProvider = ({ children }) => {
       credentials: "include",
     })
       .then((response) => {
-        console.log("logged_in api response", response);
+        // console.log("logged_in api response", response);
         return response.json();
       })
       .then((data) => {
@@ -45,7 +44,7 @@ export const UserProvider = ({ children }) => {
         ) {
           setUserStatus({ loggedInStatus: "NOT_LOGGED_IN", user: {} });
         }
-        console.log("user logged in?", data);
+        // console.log("user logged in?", data);
       })
       .catch((error) => {
         console.log("check login error", error);

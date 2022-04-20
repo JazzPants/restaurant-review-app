@@ -202,7 +202,10 @@ function RestaurantCardFocus() {
             <Typography>No reviews exist for this restaurant yet!</Typography>
           ) : (
             reviews.map((review, index) => (
-              <Card key={index} sx={{ maxWidth: 3 / 4, height: "150px" }}>
+              <Card
+                key={index}
+                sx={{ maxWidth: 3 / 4, height: "200px", bgcolor: "#e3f2fd" }}
+              >
                 <CardActionArea>
                   <CardContent>
                     {/* TODO: get user names based on user_id -> need a GET on users */}

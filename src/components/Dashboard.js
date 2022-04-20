@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
 import { Typography } from "@mui/material";
+import AddRestaurantModal from "./actions/AddRestaurantModal";
 
 export default function Dashboard() {
   const { userStatus } = useUser();
@@ -11,6 +12,7 @@ export default function Dashboard() {
       <Typography>Your Reviews and Ratings</Typography>
       <Typography>Account Information:</Typography>
       <Typography>Username: {userStatus.user?.name}</Typography>
+      <AddRestaurantModal></AddRestaurantModal>
     </>
   );
 }
