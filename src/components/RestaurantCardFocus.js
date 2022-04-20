@@ -143,7 +143,7 @@ function RestaurantCardFocus() {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log("ratings data", data);
           setRatings(data);
         })
         .catch((error) => console.log(error));
@@ -157,7 +157,6 @@ function RestaurantCardFocus() {
       const ratingsArray = ratings.map((rating) => rating.value);
       const sum = ratingsArray.reduce((a, b) => a + b, 0);
       setAverageRating(sum / ratingsArray.length);
-      console.log(ratingsArray);
     };
     handleGetAverageRating();
   }, [ratings]);
@@ -168,7 +167,7 @@ function RestaurantCardFocus() {
       const ratingObj = ratings.find(
         (rating) => rating.user_id === userStatus.user.id
       );
-      console.log(ratingObj);
+      // console.log("rating object undefined if user not logged in", ratingObj);
       if (ratingObj) {
         setUserRating(ratingObj.value);
       } else {
@@ -178,11 +177,19 @@ function RestaurantCardFocus() {
     handleGetUserRating();
   }, [ratings, userStatus]);
 
+  const handleFindRating = () => {
+    // const review = reviews.map((review) => review);
+    // const rating = reviews.find((rating) => rating.user_id === review.user_id);
+    // setFindRating(rating);
+  };
+
   //conditional rendering to wait for data to be retrieved (band-aid fix?)
   //&& and ?.
   //modify context to wait for fetch (Loading...)
   return (
     <>
+      {/* {console.log(reviews.map((review) => review.user_id))} */}
+      {/* {console.log(ratings.find((rating) => rating.user_id === review.user_id))} */}
       <h1>Restaurant: {restaurant?.name}</h1>
       <p>Category: {restaurant?.category}</p>
       <h2>{restaurant?.name}</h2>
@@ -191,13 +198,13 @@ function RestaurantCardFocus() {
 
       <Rating name="read-only" value={averageRating} precision={0.5} readOnly />
       <p>Location: {restaurant?.location}</p>
-      <p>Pricing: {restaurant?.pricing}</p>
+      {/* <p>Pricing: {restaurant?.pricing}</p> */}
       <p>Reviews:</p>
       <Button variant="outlined" onClick={handleShowReviews}>
         Show
       </Button>
       {openReviews && (
-        <div>
+        <Box>
           {reviews.length === 0 ? (
             <Typography>No reviews exist for this restaurant yet!</Typography>
           ) : (
@@ -216,13 +223,42 @@ function RestaurantCardFocus() {
                           .name
                       }
                     </Typography>
+                    {/* if rating exists show users rating, else render "That user hasn't rated this restaurant yet" */}
+                    <Typography>
+                      Rating:{" "}
+                      {/* {
+                        ratings.find(
+                          (rating) => rating.user_id === review.user_id
+                        ).value
+                      } */}
+                      {/* {console.log(ratings)} */}
+                      {ratings.find(
+                        (rating) => rating.user_id === review.user_id
+                      ) ? (
+                        <Rating
+                          name="read-only"
+                          value={
+                            ratings.find(
+                              (rating) => rating.user_id === review.user_id
+                            ).value
+                          }
+                          precision={0.5}
+                          readOnly
+                        />
+                      ) : (
+                        <span>User has not rated this restaurant yet!</span>
+                      )}
+                      {/* {ratings.map(
+                        (rating) => rating.user_id === review.user_id
+                      )} */}
+                    </Typography>
                     <Typography>{review.content}</Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
             ))
           )}
-        </div>
+        </Box>
       )}
       <p>Gallery:</p>
       {/* if review exists for user, display their review, AND exclude the review box */}
@@ -239,7 +275,14 @@ function RestaurantCardFocus() {
           </Card>
         </Box>
       ) : (
-        <Box sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}>
+        <Box
+          sx={{
+            paddingLeft: 2,
+            border: 2,
+            borderColor: "secondary.main",
+            minHeight: 200,
+          }}
+        >
           <p>Add Review:</p>
           {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
             <Typography>You must be logged in to add a review!</Typography>

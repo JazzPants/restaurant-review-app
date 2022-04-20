@@ -52,12 +52,6 @@ export default function RestaurantCardsList() {
   //coffee
   return (
     <>
-      {console.log("restaurant category:", restaurantCategory)}
-      {console.log(
-        restaurants
-          .filter((restaurant) => restaurant.category === restaurantCategory)
-          .map((restaurant) => restaurant.name)
-      )}
       <Link to="/">Home</Link>
       <Typography variant="h4">Find Restaurants</Typography>
       <FormControl sx={{ m: 1, minWidth: 1 / 4 }}>
