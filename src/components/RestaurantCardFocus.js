@@ -15,6 +15,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Modal,
+  Textfield,
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
@@ -37,6 +39,9 @@ function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
   const [userReview, setUserReview] = useState(false);
   const [openEditReview, setOpenEditReview] = useState(false);
+  const [editReviewContent, setEditReviewContent] = useState(
+    userReview?.content
+  );
 
   const { userStatus } = useUser();
   const { userNames } = useUser();
@@ -45,10 +50,8 @@ function RestaurantCardFocus() {
   const [restaurant, setRestaurant] = useState({});
 
   const [ratings, setRatings] = useState([]);
-  const [openRatings, setOpenRatings] = useState(false);
   const [averageRating, setAverageRating] = useState(0);
   const [userRating, setUserRating] = useState(0);
-  const [openEditRating, setOpenEditRating] = useState(false);
   const [openEditRatingConfirmation, setOpenEditRatingConfirmation] =
     useState(false);
   const [ratingConfirmation, setRatingConfirmation] = useState("NO");
@@ -96,9 +99,10 @@ function RestaurantCardFocus() {
   //handleGetUserReviews
   useEffect(() => {
     const handleGetUserReview = () => {
-      setUserReview(
-        reviews.find((review) => review.user_id === userStatus.user.id)
+      const reviewObj = reviews.find(
+        (review) => review.user_id === userStatus.user.id
       );
+      setUserReview(reviewObj);
     };
     handleGetUserReview();
   }, [reviews, userStatus]);
@@ -146,7 +150,17 @@ function RestaurantCardFocus() {
     event.preventDefault();
   };
   //#
-  //TODO: handleEditReview
+  //TODO: handleOpenEditReview
+  const handleOpenEditReview = () => {
+    setOpenEditReview(true);
+    console.log("edit review button pressed");
+  };
+
+  //modal close button
+  const handleCloseEditReview = () => {
+    setOpenEditReview(false);
+  };
+  // setEditReviewContent(reviewObj.content);
   //handleSubmitEditReview
   //#
 
@@ -162,10 +176,6 @@ function RestaurantCardFocus() {
     console.log(event.target.value);
   };
 
-  const handleOpenEditRatingConfirmation = () => {
-    setOpenEditRatingConfirmation(true);
-  };
-
   const handleCloseEditRatingConfirmation = () => {
     setOpenEditRatingConfirmation(false);
     setRatingConfirmation("NO");
@@ -178,9 +188,7 @@ function RestaurantCardFocus() {
     const ratingObj = ratings.find(
       (rating) => rating.user_id === userStatus.user.id
     );
-    console.log(ratingObj);
     const ratingId = ratingObj.id;
-    console.log(ratingId);
     console.log("sending...");
     //fetch PATCH
     //ratingValue
@@ -338,10 +346,16 @@ function RestaurantCardFocus() {
         {/* if review exists for user, display their review, AND exclude the review box */}
         {userReview ? (
           <Box
-            sx={{ border: 2, borderColor: "secondary.main", minHeight: 200 }}
+            sx={{
+              p: 2,
+              border: 2,
+              borderColor: "secondary.main",
+              minHeight: 400,
+            }}
           >
             <Typography sx={{ p: 1 }}>Your review: </Typography>
-            <Card sx={{ p: 2, height: "200px" }}>
+
+            <Card sx={{ m: 2, p: 2, height: "250px" }}>
               {" "}
               <CardActionArea>
                 <CardContent>
@@ -349,6 +363,46 @@ function RestaurantCardFocus() {
                 </CardContent>
               </CardActionArea>
             </Card>
+            <Button
+              variant="outlined"
+              sx={{ float: "right" }}
+              onClick={handleOpenEditReview}
+            >
+              Edit Review
+            </Button>
+            <Modal open={openEditReview} onClose={handleCloseEditReview}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 3 / 4,
+                  height: 1 / 2,
+                  bgcolor: "white",
+                  border: "2px solid #000",
+                  boxShadow: 24,
+                  p: 4,
+                }}
+              >
+                <Typography sx={{ mb: 2 }} variant="h6">
+                  Edit Your Review:
+                </Typography>
+
+                <TextField
+                  sx={{ mb: 1.5 }}
+                  fullWidth
+                  multiline
+                  rows={8}
+                ></TextField>
+                <Button variant="outlined" sx={{ float: "right" }}>
+                  Cancel
+                </Button>
+                <Button variant="outlined" sx={{ float: "right" }}>
+                  Submit
+                </Button>
+              </Box>
+            </Modal>
           </Box>
         ) : (
           <Box
@@ -446,14 +500,14 @@ function RestaurantCardFocus() {
             )}
           </Stack>
         </Box>
-
-        {userStatus.loggedInStatus === "NOT_LOGGED_IN" && (
-          <Typography>
-            You must be logged in to edit this Restaurant!
-          </Typography>
-        )}
-
-        <EditRestaurantModal></EditRestaurantModal>
+        <Box id="edit-restaurant-box">
+          {userStatus.loggedInStatus === "NOT_LOGGED_IN" && (
+            <Typography>
+              You must be logged in to edit this Restaurant!
+            </Typography>
+          )}
+          <EditRestaurantModal></EditRestaurantModal>
+        </Box>
         <Link to="/">Home</Link>
       </Box>
     </>
