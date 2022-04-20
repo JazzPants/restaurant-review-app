@@ -10,40 +10,54 @@ import Register from "./components/actions/Register";
 import Dashboard from "./components/Dashboard";
 import { Box } from "@mui/system";
 
+import { Container, CssBaseline } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserProvider } from "./contexts/UserContext";
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: "#ffb74d",
+      container: "#29b6f6",
+    },
+  },
+});
 
 function App() {
   return (
     <React.Fragment>
-      <UserProvider>
-        <RestaurantsProvider>
-          <Box sx={{ bgcolor: "#ffb74d" }}>
-            <Routes>
-              <Route
-                path="*"
-                element={
-                  <main style={{ padding: "1rem" }}>
-                    <p>There's nothing here! Go back:</p>
-                    <Link to="/">Home</Link>
-                  </main>
-                }
-              />
-              <Route path="/" element={<Home />}>
-                {/* <Route path="/user/userid" element={<User />} /> */}
-                <Route path="restaurants" element={<RestaurantCardsList />} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <UserProvider>
+          <RestaurantsProvider>
+            <Container>
+              <Routes>
                 <Route
-                  path="restaurant/:restaurantId"
-                  element={<RestaurantCardFocus />}
+                  path="*"
+                  element={
+                    <main style={{ padding: "1rem" }}>
+                      <p>There's nothing here! Go back:</p>
+                      <Link to="/">Home</Link>
+                    </main>
+                  }
                 />
-                <Route path="styletest" element={<StyleTest />} />
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="dashboard" element={<Dashboard />} />
-              </Route>
-            </Routes>
-          </Box>
-        </RestaurantsProvider>
-      </UserProvider>
+                <Route path="/" element={<Home />}>
+                  {/* <Route path="/user/userid" element={<User />} /> */}
+                  <Route path="restaurants" element={<RestaurantCardsList />} />
+                  <Route
+                    path="restaurant/:restaurantId"
+                    element={<RestaurantCardFocus />}
+                  />
+                  <Route path="styletest" element={<StyleTest />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="register" element={<Register />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                </Route>
+              </Routes>
+            </Container>
+          </RestaurantsProvider>
+        </UserProvider>
+      </ThemeProvider>
     </React.Fragment>
   );
 }
