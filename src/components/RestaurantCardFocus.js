@@ -18,7 +18,7 @@ import {
   Modal,
   Textfield,
 } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRestaurants } from "../contexts/RestaurantsContext";
 import EditRestaurantModal from "./actions/EditRestaurantModal";
 import ReviewsCardsList from "./ReviewsCardsList";
@@ -39,9 +39,8 @@ function RestaurantCardFocus() {
   const [showAddReview, setShowAddReview] = useState(false);
   const [userReview, setUserReview] = useState(false);
   const [openEditReview, setOpenEditReview] = useState(false);
-  const [editReviewContent, setEditReviewContent] = useState(
-    userReview?.content
-  );
+  const [editReviewContent, setEditReviewContent] = useState("");
+  const [reviewIsEdited, setReviewIsEdited] = useState(false);
 
   const { userStatus } = useUser();
   const { userNames } = useUser();
@@ -56,6 +55,7 @@ function RestaurantCardFocus() {
     useState(false);
   const [ratingConfirmation, setRatingConfirmation] = useState("NO");
   const [editRatingValue, setEditRatingValue] = useState(0);
+  const [ratingIsEdited, setRatingIsEdited] = useState(false);
 
   const params = useParams();
   const reviewRef = useRef();
@@ -94,7 +94,7 @@ function RestaurantCardFocus() {
         .catch((error) => console.log(error));
     };
     handleGetReviews();
-  }, [restaurant]);
+  }, [restaurant, reviewIsEdited]);
 
   //handleGetUserReviews
   useEffect(() => {
@@ -149,6 +149,15 @@ function RestaurantCardFocus() {
     console.log("Submitting review...");
     event.preventDefault();
   };
+
+  //set edit review
+  useEffect(() => {
+    setEditReviewContent(userReview?.content);
+  }, [userReview]);
+
+  const handleEditReview = (event) => {
+    setEditReviewContent(event.target.value);
+  };
   //#
   //TODO: handleOpenEditReview
   const handleOpenEditReview = () => {
@@ -162,6 +171,43 @@ function RestaurantCardFocus() {
   };
   // setEditReviewContent(reviewObj.content);
   //handleSubmitEditReview
+  const handleSubmitEditReview = () => {
+    setOpenEditReview(false);
+    // setReviewIsEdited(true);
+    const reviewObj = reviews.find(
+      (review) => review.user_id === userStatus.user.id
+    );
+    const reviewId = reviewObj.id;
+    console.log("sending edited review...");
+    fetch(
+      `http://localhost:3000/api/v1/restaurants/${restaurant.id}/reviews/${reviewId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        //restaurant object here
+        body: JSON.stringify({
+          review: {
+            content: editReviewContent,
+          },
+        }),
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleRefreshReview = () => {
+    setReviewIsEdited(!reviewIsEdited);
+    console.log(ratingIsEdited);
+  };
+
   //#
 
   //TODO: handleEditRating
@@ -228,7 +274,11 @@ function RestaurantCardFocus() {
         .catch((error) => console.log(error));
     };
     handleGetRatings();
-  }, [restaurant]);
+  }, [restaurant, ratingIsEdited]);
+
+  const handleRefreshRating = () => {
+    setRatingIsEdited(!ratingIsEdited);
+  };
 
   //average rating
   //material ui Rating component will handle the rounding!
@@ -363,12 +413,16 @@ function RestaurantCardFocus() {
                 </CardContent>
               </CardActionArea>
             </Card>
+
             <Button
               variant="outlined"
               sx={{ float: "right" }}
               onClick={handleOpenEditReview}
             >
               Edit Review
+            </Button>
+            <Button onClick={handleRefreshReview} variant="outlined">
+              Refresh
             </Button>
             <Modal open={openEditReview} onClose={handleCloseEditReview}>
               <Box
@@ -394,11 +448,21 @@ function RestaurantCardFocus() {
                   fullWidth
                   multiline
                   rows={8}
+                  defaultValue={editReviewContent}
+                  onChange={handleEditReview}
                 ></TextField>
-                <Button variant="outlined" sx={{ float: "right" }}>
+                <Button
+                  variant="outlined"
+                  sx={{ float: "right" }}
+                  onClick={handleCloseEditReview}
+                >
                   Cancel
                 </Button>
-                <Button variant="outlined" sx={{ float: "right" }}>
+                <Button
+                  variant="outlined"
+                  sx={{ float: "right" }}
+                  onClick={handleSubmitEditReview}
+                >
                   Submit
                 </Button>
               </Box>
@@ -458,10 +522,23 @@ function RestaurantCardFocus() {
               <Rating value={0} precision={0.5}></Rating>
             </Box>
           ) : (
-            <Box>
+            <Stack>
               <Typography>Your current rating:</Typography>
-              <Rating value={userRating} precision={0.5}></Rating>
-            </Box>
+              <Rating
+                sx={{ m: 2 }}
+                value={userRating}
+                precision={0.5}
+                size="large"
+                readOnly
+              ></Rating>
+              <Button
+                sx={{ m: 2, width: 1 / 4 }}
+                variant="outlined"
+                onClick={handleRefreshRating}
+              >
+                Refresh
+              </Button>
+            </Stack>
           )}
           {/* logged in to show edit rating box */}
           <Stack justifyContent="center" alignItems="center">
