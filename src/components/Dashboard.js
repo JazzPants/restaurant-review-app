@@ -8,8 +8,8 @@ export default function Dashboard() {
 
   return (
     <>
-      <Typography>User Dashboard</Typography>
-      <Typography>Your Reviews and Ratings</Typography>
+      <Typography variant="h4">User Dashboard</Typography>
+      {/* <Typography>Your Reviews and Ratings</Typography> */}
       <Typography>Account Information:</Typography>
       <Typography>Username: {userStatus.user?.name}</Typography>
       <AddRestaurantModal></AddRestaurantModal>

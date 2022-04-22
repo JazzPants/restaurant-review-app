@@ -102,6 +102,7 @@ export default function RestaurantCardsList() {
                   >
                     <RestaurantCard
                       name={restaurant.name}
+                      image={restaurant.image}
                       description={restaurant.description}
                       category={restaurant.category}
                       rating={restaurant.rating}

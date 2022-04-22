@@ -92,7 +92,7 @@ export default function AddRestaurantModal() {
       )}
 
       <Dialog open={open}>
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ minWidth: 1000, p: 3 }}>
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <h2>Add a Restaurant</h2>
@@ -115,12 +115,13 @@ export default function AddRestaurantModal() {
                 <TextField
                   inputRef={descriptionRef}
                   label="description"
-                  InputProps={{ style: { fontSize: 40 } }}
+                  InputProps={{ style: { fontSize: 20 } }}
                   InputLabelProps={{ style: { fontSize: 20 } }}
                   name="restaurant[description]"
                   multiline
                   rows={3}
                   required
+                  sx={{ width: 1 / 2 }}
                 />
               </div>
               <div>
@@ -155,7 +156,7 @@ export default function AddRestaurantModal() {
                 <Button variant="outlined" type="submit">
                   Submit
                 </Button>
-                <Button variant="outlined">Save</Button>
+                {/* <Button variant="outlined">Save</Button> */}
                 <Button variant="outlined" onClick={handleClose}>
                   Close
                 </Button>

@@ -257,7 +257,7 @@ export default function PersistentDrawerLeft() {
         <List>
           <ListItem>
             <Link to="restaurants" style={{ textDecoration: "none" }}>
-              Random Restaurants
+              Find Restaurants
             </Link>
           </ListItem>
         </List>
@@ -278,7 +278,7 @@ export default function PersistentDrawerLeft() {
         ) : (
           <Typography>Welcome, Guest</Typography>
         )}{" "}
-        <Link to="/restaurants">Random Restaurants</Link> <Outlet />
+        <Link to="/restaurants">Find Restaurants</Link> <Outlet />
         {userStatus.loggedInStatus === "NOT_LOGGED_IN" ? (
           <Button sx={{ m: 1 }} type="Button" variant="outlined" disabled>
             Logout

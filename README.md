@@ -1,3 +1,13 @@
+# Instructions
+
+1. npm install to install dependencies.
+
+2. npm start to start react app
+
+3. Open react app on your browser with localhost:4000
+
+4. Enjoy!
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
