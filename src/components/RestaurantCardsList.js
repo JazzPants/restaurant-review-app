@@ -16,7 +16,6 @@ export default function RestaurantCardsList() {
   const [restaurantCategories, setRestaurantCategories] = useState(["All"]);
   //category to render
   const [restaurantCategory, setRestaurantCategory] = useState("All");
-  // console.log(restaurants);
 
   //handleRestaurantCategory = (event) => {
   // event.target.value
@@ -37,6 +36,7 @@ export default function RestaurantCardsList() {
       ...prevState,
       ...arrayWithUniqueCategories,
     ]);
+    console.log(restaurants);
   }, [restaurants]);
 
   const handleRestaurantCategory = (event) => {
@@ -86,6 +86,7 @@ export default function RestaurantCardsList() {
                     rating={restaurant.rating}
                     location={restaurant.location}
                     pricing={restaurant.pricing}
+                    image={restaurant.image}
                   ></RestaurantCard>
                 </Link>
               </Grid>
@@ -102,12 +103,12 @@ export default function RestaurantCardsList() {
                   >
                     <RestaurantCard
                       name={restaurant.name}
-                      image={restaurant.image}
                       description={restaurant.description}
-                      category={restaurant.category}
+                      categoryTest={restaurant.category}
                       rating={restaurant.rating}
                       location={restaurant.location}
                       pricing={restaurant.pricing}
+                      image={restaurant.image}
                     ></RestaurantCard>
                   </Link>
                 </Grid>
