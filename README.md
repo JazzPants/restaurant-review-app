@@ -8,6 +8,8 @@
 
 4. Enjoy!
 
+(To enjoy full features of this app, install restaurant-review-api(https://github.com/JazzPants/restaurant-review-api) and run the API server, to allow the LOG-IN/LOG-OUT feature and also save your reviews!)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
